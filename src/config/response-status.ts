@@ -1,0 +1,12 @@
+export enum ResponseStatus {
+    SUCCESS = 200,
+    CREATED,
+    NO_CONTENT = 204,
+    BAD_REQUEST = 400,
+    UNAUTHORIZED,
+    CONTENT_NOT_EXIST,
+    FORBIDDEN = 403,
+    NOT_FOUND,
+    DOUBLE_RECORD = 409,
+    SERVER_ERROR = 500,
+}
