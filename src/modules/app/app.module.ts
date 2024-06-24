@@ -5,7 +5,6 @@ import {SequelizeModule} from "@nestjs/sequelize";
 import {dbConf} from "../../config/db.conf";
 import {AuthModule} from "../auth/auth.module";
 import {UsersModule} from "../users/users.module";
-import {JwtModule} from "@nestjs/jwt";
 
 @Module({
     imports: [
@@ -16,7 +15,6 @@ import {JwtModule} from "@nestjs/jwt";
         }),
         AuthModule,
         UsersModule,
-        JwtModule,
     ],
     controllers: [AppController],
     providers: [AppProvider],

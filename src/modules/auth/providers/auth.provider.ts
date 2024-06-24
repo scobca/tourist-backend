@@ -5,16 +5,17 @@ import {Op} from "sequelize";
 import {DoubleRecordException} from "../../../exceptions/double-record.exception";
 import {LoginUserInputDto} from "../dto/login-user-input.dto";
 import {UsersProvider} from "../../users/providers/users.provider";
-import {JwtService} from "@nestjs/jwt";
+import {JwtUtil} from "../../../utils/jwt.util";
+import {JwtUserSignInDto} from "../dto/jwt-user-sign-in.dto";
+import {ContentNotExistException} from "../../../exceptions/content-not-exist.exception";
 
 @Injectable()
 export class AuthProvider {
 
     constructor(
         @Inject(UsersProvider) private userProvider: UsersProvider,
-        @Inject(JwtService) private jwtService: JwtService,
-    ) {
-    }
+        @Inject(JwtUtil) private jwt: JwtUtil,
+    ) {}
 
     public async createUser(data: CreateUserInputDto): Promise<UsersModel> {
         if (data.password == data.verify_password) {
@@ -45,6 +46,22 @@ export class AuthProvider {
     }
 
     public async loginUser(data: LoginUserInputDto): Promise<any> {
-        return await this.userProvider.findOne(data);
+        const user = await this.userProvider.findOne(data);
+
+        if (user != null) {
+            const data: JwtUserSignInDto = {
+                id: (await user).id,
+                login: (await user).login,
+                email: (await user).email,
+                password: (await user).password
+            };
+
+            return {
+                token: await this.jwt.signIn(data),
+                user: user,
+            }
+        } else {
+            throw new ContentNotExistException("User with this data not exist")
+        }
     }
 }
