@@ -46,7 +46,7 @@ export class AuthProvider {
     }
 
     public async loginUser(data: LoginUserInputDto): Promise<any> {
-        const user = await this.userProvider.findOne(data);
+        const user = await this.userProvider.getUser(data);
 
         if (user != null) {
             const data: JwtUserSignInDto = {
