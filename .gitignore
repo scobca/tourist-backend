@@ -1,6 +1,7 @@
 # custom files
 /src/config/db.conf.ts
 /src/config/jwt.conf.ts
+/src/config/map.conf.ts
 
 # compiled output
 /dist
