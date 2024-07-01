@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, HttpCode, Inject} from '@nestjs/common';
+import {Body, Controller, Delete, Get, HttpCode, Inject, Post} from '@nestjs/common';
 import {UsersProvider} from "../providers/users.provider";
 import {ResponseStatus} from "../../../config/response-status";
 import {LoginUserInputDto} from "../../auth/dto/login-user-input.dto";
@@ -8,13 +8,13 @@ import {UserDataDto} from "../dto/user-data.dto";
 export class UsersController {
     constructor(@Inject(UsersProvider) private usersProvider: UsersProvider) {}
 
-    @Get('/getUser')
+    @Post('/getUser')
     @HttpCode(ResponseStatus.SUCCESS)
     public async loginUser(@Body() data: LoginUserInputDto){
         return await this.usersProvider.getUser(data);
     }
 
-    @Get('/getByID')
+    @Post('/getByID')
     @HttpCode(ResponseStatus.SUCCESS)
     public async getUserByID(@Body() data: UserDataDto){
         return await this.usersProvider.findByID(data.id);
